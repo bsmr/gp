@@ -12,7 +12,14 @@ Go Package - a tool to create go packages
 ## Installation
 
 ```shell
+# latest version
 go install github.com/bsmr/gp/cmd/gp@latest
+
+# specify version
+go install github.com/bsmr/gp/cmd/gp@v0.0.2
+
+# install from source
+go install ./cmd/gp
 ```
 
 ## Usage
