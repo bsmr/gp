@@ -32,6 +32,7 @@ func main() {
 	var test bool
 	var force bool
 	var data bool
+	var version bool
 
 	flag.BoolVar(&top, "top", false, "top-level package => no subdirectory created")
 	flag.BoolVar(&cmd, "cmd", false, "command package => special structure created")
@@ -40,9 +41,15 @@ func main() {
 	flag.BoolVar(&test, "test", true, "generate package test")
 	flag.BoolVar(&data, "data", true, "generate type and func")
 
+	flag.BoolVar(&version, "version", false, "show version information and exit")
 	flag.BoolVar(&force, "force", false, "overwrite existing file(s)")
 	flag.BoolVar(&debug, "debug", false, "enable debug mode")
 	flag.Parse()
+
+	if version {
+		fmt.Printf("gp version: %s\n", gp.Version())
+		return
+	}
 
 	if name == "" {
 		panic(errors.New("no package name specified"))
