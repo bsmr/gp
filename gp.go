@@ -8,21 +8,37 @@ import (
 
 const (
 	codeTemplate = "package {{ .Name }}"
+	mainTemplate = `package {{ .Name }}
+
+	import "fmt"
+
+	func main() {
+		fmt.Println("Hello, {{ .Title }}!")
+	}`
 	testTemplate = "package {{ .Name }}"
 )
 
 type Information struct {
-	Name string
+	Name  string
+	Title string
+	Main  bool
 }
 
-func New(name string) Information {
+func New(name, title string, main bool) Information {
 	return Information{
-		Name: name,
+		Name:  name,
+		Title: title,
+		Main:  main,
 	}
 }
 
 func (i Information) CreatePackageCode() (string, error) {
-	return i.CreatePackage("code", codeTemplate)
+	switch i.Main {
+	case true:
+		return i.CreatePackage("code", mainTemplate)
+	default:
+		return i.CreatePackage("code", codeTemplate)
+	}
 }
 
 func (i Information) CreatePackageTest() (string, error) {

@@ -9,7 +9,7 @@ const (
 
 func createInfo() Information {
 	name := "dummy"
-	info := New(name)
+	info := New(name, name, false)
 	return info
 }
 
