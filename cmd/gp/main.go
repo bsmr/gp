@@ -31,12 +31,14 @@ func main() {
 	var name string
 	var test bool
 	var force bool
+	var data bool
 
 	flag.BoolVar(&top, "top", false, "top-level package => no subdirectory created")
 	flag.BoolVar(&cmd, "cmd", false, "command package => special structure created")
 
 	flag.StringVar(&name, "name", "", "package name")
 	flag.BoolVar(&test, "test", true, "generate package test")
+	flag.BoolVar(&data, "data", true, "generate type and func")
 
 	flag.BoolVar(&force, "force", false, "overwrite existing file(s)")
 	flag.BoolVar(&debug, "debug", false, "enable debug mode")
@@ -81,7 +83,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, " packageName: %q\n", packageName)
 	}
 
-	info := gp.New(packageName, name, cmd)
+	info := gp.New(packageName, name, cmd, test, data)
 	textCode, err := info.CreatePackageCode()
 	if err != nil {
 		panic(err)

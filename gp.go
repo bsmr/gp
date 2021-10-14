@@ -2,43 +2,41 @@ package gp
 
 import (
 	"bytes"
+	_ "embed"
+	"fmt"
 	"go/format"
-	"html/template"
+	"strings"
+	"text/template"
 )
 
-const (
-	codeTemplate = "package {{ .Name }}"
-	mainTemplate = `package {{ .Name }}
+var (
+	//go:embed resources/code.go.template
+	codeTemplate string
 
-	import "fmt"
-
-	func main() {
-		fmt.Println("Hello, {{ .Title }}!")
-	}`
-	testTemplate = "package {{ .Name }}"
+	//go:embed resources/test.go.template
+	testTemplate string
 )
 
 type Information struct {
 	Name  string
 	Title string
 	Main  bool
+	Test  bool
+	Data  bool
 }
 
-func New(name, title string, main bool) Information {
+func New(name, title string, main, test, data bool) Information {
 	return Information{
 		Name:  name,
 		Title: title,
 		Main:  main,
+		Test:  test,
+		Data:  data,
 	}
 }
 
 func (i Information) CreatePackageCode() (string, error) {
-	switch i.Main {
-	case true:
-		return i.CreatePackage("code", mainTemplate)
-	default:
-		return i.CreatePackage("code", codeTemplate)
-	}
+	return i.CreatePackage("code", codeTemplate)
 }
 
 func (i Information) CreatePackageTest() (string, error) {
@@ -51,8 +49,16 @@ func (i Information) CreatePackage(templateName, templateText string) (string, e
 		return "", err
 	}
 
+	data := map[string]interface{}{
+		"Name":  i.Name,
+		"Title": i.Title,
+		"Main":  i.Main,
+		"Test":  i.Test,
+		"Data":  i.Data,
+		"Type":  firstUpper(i.Name),
+	}
 	var sb bytes.Buffer
-	if err := t.Execute(&sb, &i); err != nil {
+	if err := t.Execute(&sb, data); err != nil {
 		return "", err
 	}
 
@@ -62,4 +68,13 @@ func (i Information) CreatePackage(templateName, templateText string) (string, e
 	}
 
 	return string(buf), nil
+}
+
+func firstUpper(text string) string {
+	if text == "" {
+		return text
+	}
+
+	f := strings.ToUpper(text[:1])
+	return fmt.Sprintf("%s%s", f, text[1:])
 }
