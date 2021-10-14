@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/bsmr/gp"
 )
@@ -28,6 +29,7 @@ var debug bool
 func main() {
 	var namePack string
 	var nameFile string
+	var namePath string
 	var enableTop bool
 	var enableCmd bool
 	var enableTst bool
@@ -37,6 +39,7 @@ func main() {
 
 	flag.StringVar(&namePack, "name", "", "package name")
 	flag.StringVar(&nameFile, "file", "", "filename to use")
+	flag.StringVar(&namePath, "path", "", "path to add to current directory")
 
 	flag.BoolVar(&enableTop, "top", false, "top-level package => no subdirectory created")
 	flag.BoolVar(&enableCmd, "cmd", false, "command package => special structure created")
@@ -60,6 +63,11 @@ func main() {
 	wd, err := os.Getwd()
 	if err != nil {
 		panic(err)
+	}
+
+	baseOffset := strings.Split(namePath, string(os.PathSeparator))
+	for _, bop := range baseOffset {
+		wd = filepath.Join(wd, bop)
 	}
 
 	var baseDir string
