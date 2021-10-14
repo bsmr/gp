@@ -103,12 +103,12 @@ func main() {
 	}
 
 	info := gp.New(packageName, namePack, enableCmd, enableTst, enableTyp)
-	textCode, err := info.CreatePackageCode()
+	contentCode, err := info.CreatePackageCode()
 	if err != nil {
 		panic(err)
 	}
 
-	if err := write(baseDir, filenameCode, textCode, useForce); err != nil {
+	if err := write(baseDir, filenameCode, contentCode, useForce); err != nil {
 		panic(err)
 	}
 
@@ -116,30 +116,30 @@ func main() {
 		return
 	}
 
-	textTest, err := info.CreatePackageTest()
+	contentTest, err := info.CreatePackageTest()
 	if err != nil {
 		panic(err)
 	}
 
-	if err := write(baseDir, filenameTest, textTest, useForce); err != nil {
+	if err := write(baseDir, filenameTest, contentTest, useForce); err != nil {
 		panic(err)
 	}
 }
 
-func write(dir, name, text string, force bool) error {
-	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+func write(nameDirectory, nameFile, content string, useForce bool) error {
+	if err := os.MkdirAll(nameDirectory, os.ModePerm); err != nil {
 		return err
 	}
 
-	fp := filepath.Join(dir, name)
+	fp := filepath.Join(nameDirectory, nameFile)
 	fi, _ := os.Stat(fp)
 
 	switch {
 	case (fi != nil) && (fi.IsDir()):
 		return fmt.Errorf("%q is a directory", fp)
-	case (fi != nil) && !force:
+	case (fi != nil) && !useForce:
 		return fmt.Errorf("%q exists", fp)
 	default:
-		return os.WriteFile(fp, []byte(text), 0644)
+		return os.WriteFile(fp, []byte(content), 0644)
 	}
 }
