@@ -1,10 +1,15 @@
 package gp
 
-import "testing"
+import (
+	_ "embed"
+	"testing"
+)
 
-const (
-	codeExpected = "package dummy\n"
-	testExpected = "package dummy\n"
+var (
+	//go:embed resources/dummy.go
+	dummyCodeExpected string
+	//go:embed resources/dummy_test.go
+	dummyTestExpected string
 )
 
 func createInfo() Information {
@@ -13,27 +18,27 @@ func createInfo() Information {
 	return info
 }
 
-func TestTemplatePackageCode(t *testing.T) {
+func TestTemplatePackageCodeDefault(t *testing.T) {
 	info := createInfo()
 	code, err := info.CreatePackageCode()
 	if err != nil {
 		t.Fatalf("CreatePackageCode() failed: %s", err)
 	}
 
-	if code != codeExpected {
-		t.Fatalf("generated code is %q, expected %q", code, codeExpected)
+	if code != dummyCodeExpected {
+		t.Fatalf("generated code is %q, expected %q", code, dummyCodeExpected)
 	}
 }
 
-func TestTemplatePackageTest(t *testing.T) {
+func TestTemplatePackageTestDefault(t *testing.T) {
 	info := createInfo()
 	test, err := info.CreatePackageTest()
 	if err != nil {
 		t.Fatalf("CreatePackageTest() failed: %s", err)
 	}
 
-	if test != testExpected {
-		t.Fatalf("generated test is %q, expected %q", test, testExpected)
+	if test != dummyTestExpected {
+		t.Fatalf("generated test is %q, expected %q", test, dummyTestExpected)
 	}
 }
 
