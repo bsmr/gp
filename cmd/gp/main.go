@@ -44,7 +44,7 @@ func main() {
 	flag.BoolVar(&enableTop, "top", false, "top-level package => no subdirectory created")
 	flag.BoolVar(&enableCmd, "cmd", false, "command package => special structure created")
 	flag.BoolVar(&enableTst, "test", true, "generate package test")
-	flag.BoolVar(&enableTyp, "data", true, "generate type and func")
+	flag.BoolVar(&enableTyp, "data", false, "generate type and func")
 	flag.BoolVar(&useForce, "force", false, "overwrite existing file(s)")
 
 	flag.BoolVar(&onlyVersion, "version", false, "show version information and exit")
