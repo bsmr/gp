@@ -1,3 +1,3 @@
 module github.com/bsmr/gp
 
-go 1.17
+go 1.20
