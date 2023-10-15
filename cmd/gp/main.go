@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/bsmr/gp"
+	"github.com/bsmr/gp/internal/environment"
 	"github.com/bsmr/gp/internal/version"
 )
 
@@ -111,7 +111,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, " packageName: %q\n", packageName)
 	}
 
-	info := gp.New(packageName, namePack, enableCmd, enableTst, enableTyp)
+	info := environment.New(packageName, namePack, enableCmd, enableTst, enableTyp)
 	contentCode, err := info.CreatePackageCode()
 	if err != nil {
 		panic(err)
