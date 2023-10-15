@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/bsmr/gp"
+	"github.com/bsmr/gp/internal/version"
 )
 
 /*
@@ -52,7 +53,7 @@ func main() {
 	flag.Parse()
 
 	if onlyVersion {
-		fmt.Printf("gp version: %s\n", gp.Version())
+		fmt.Printf("gp version: %s\n", version.Version())
 		return
 	}
 

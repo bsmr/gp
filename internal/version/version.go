@@ -1,9 +1,9 @@
-package gp
+package version
 
 var (
 	// set version during build
 	// -ldflags "-X github.com/bsmr/gp.VersionText=v1.2.3"
-	// go build -ldflags "-X github.com/bsmr/gp.VersionText=$(git branch --show-current)" -o bin/gp cmd/gp/main.go
+	// go build -ldflags "-X github.com/bsmr/gp/internal/version.VersionText=$(git branch --show-current)" -o bin/gp cmd/gp/main.go
 	VersionText = "*unspecified version*"
 )
 
