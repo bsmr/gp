@@ -7,14 +7,8 @@ import (
 	"go/format"
 	"strings"
 	"text/template"
-)
 
-var (
-	//go:embed resources/code.go.template
-	codeTemplate string
-
-	//go:embed resources/test.go.template
-	testTemplate string
+	"github.com/bsmr/gp/internal/templates"
 )
 
 type Information struct {
@@ -36,11 +30,11 @@ func New(name, title string, main, test, data bool) Information {
 }
 
 func (i Information) CreatePackageCode() (string, error) {
-	return i.CreatePackage("code", codeTemplate)
+	return i.CreatePackage("code", templates.CodeTemplate)
 }
 
 func (i Information) CreatePackageTest() (string, error) {
-	return i.CreatePackage("test", testTemplate)
+	return i.CreatePackage("test", templates.TestTemplate)
 }
 
 func (i Information) CreatePackage(templateName, templateText string) (string, error) {
