@@ -1,6 +1,6 @@
 # === Makefile for less PIA ===
 
-VERSION=$(shell git branch --show-current)
+VERSION=$(shell git branch --show-current)-$(shell date --utc '+%Y%m%d-%H%M%S')
 
 all: clean build
 
